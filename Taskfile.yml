@@ -1,14 +1,23 @@
 version: '3'
 
+dotenv: ["app/.env"]
 vars:
-  BACK_CONTAINER_NAME: hitotsumami_back-app-1
-  DB_CONTAINER_NAME: hitotsumami_db
+  BACK_CONTAINER_NAME: app
+  DB_CONTAINER_NAME: database
 
 tasks:
   back:
     cmds:
-      - docker exec -it {{.BACK_CONTAINER_NAME}} bash
+      - docker compose exec -it {{.BACK_CONTAINER_NAME}} bash
 
   db:
     cmds:
-      - docker exec -it {{.DB_CONTAINER_NAME}} bash
+      - docker compose exec -it {{.DB_CONTAINER_NAME}} mysql -u {{.DB_USERNAME}} -p 
+
+  up:
+    cmds:
+      - docker compose up
+
+  down:
+    cmds:
+      - docker compose down
