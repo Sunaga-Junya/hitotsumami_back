@@ -1,0 +1,14 @@
+version: '3'
+
+vars:
+  BACK_CONTAINER_NAME: hitotsumami_back-app-1
+  DB_CONTAINER_NAME: hitotsumami_db
+
+tasks:
+  back:
+    cmds:
+      - docker exec -it {{.BACK_CONTAINER_NAME}} bash
+
+  db:
+    cmds:
+      - docker exec -it {{.DB_CONTAINER_NAME}} bash
