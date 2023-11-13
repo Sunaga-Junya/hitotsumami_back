@@ -20,6 +20,7 @@ services:
       - "80:80"
     volumes:
       - ./app:/var/www/app
+    container_name: hitotsumami_app
     working_dir: /var/www/app
     depends_on:
       database:
