@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  database:
+    image: mysql:8.2.0
+    environment:
+      MYSQL_DATABASE: hitotsumami # データベース名
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: admin # ユーザー名（任意）
+      MYSQL_PASSWORD: password # ユーザーのパスワード（任意）
+    ports:
+      - "3306:3306"
+    healthcheck:  
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+
+  app:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/var/www/app
+    working_dir: /var/www/app
+    depends_on:
+      database:
+        condition: service_healthy
+
