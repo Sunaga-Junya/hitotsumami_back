@@ -2,17 +2,17 @@ version: '3'
 
 dotenv: ["app/.env"]
 vars:
-  BACK_CONTAINER_NAME: app
-  DB_CONTAINER_NAME: database
+  BACK_SERVICE_NAME: app
+  DB_SERVICE_NAME: database
 
 tasks:
   back:
     cmds:
-      - docker compose exec -it {{.BACK_CONTAINER_NAME}} bash
+      - docker compose exec -it {{.BACK_SERVICE_NAME}} bash
 
   db:
     cmds:
-      - docker compose exec -it {{.DB_CONTAINER_NAME}} mysql -u {{.DB_USERNAME}} -p 
+      - docker compose exec -it {{.DB_SERVICE_NAME}} mysql -u {{.DB_USERNAME}} -p 
 
   up:
     cmds:
