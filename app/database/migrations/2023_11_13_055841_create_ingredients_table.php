@@ -12,8 +12,8 @@ return new class () extends Migration {
     {
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("unit");
+            $table->string("name",50);
+            $table->string("unit",10);
             $table->timestamp("created_at")->useCurrent();
             $table->timestamp("updated_at")->useCurrentOnUpdate();
         });
