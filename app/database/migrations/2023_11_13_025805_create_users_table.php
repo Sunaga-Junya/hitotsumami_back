@@ -14,7 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->string("name",50);
             $table->string("mail_address");
-            $table->string("hased_password");
+            $table->string("hashed_password");
             $table->timestamp("created_at")->useCurrent();
             $table->timestamp("updated_at")->useCurrentOnUpdate();
         });
