@@ -15,8 +15,7 @@ return new class () extends Migration {
             $table->foreignId("recipe_id")->constrained();
             $table->foreignId("ingredient_id")->constrained();
             $table->float("quantity");
-            $table->timestamp("created_at")->useCurrent();
-            $table->timestamp("updated_at")->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 
