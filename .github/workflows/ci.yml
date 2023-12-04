@@ -27,3 +27,6 @@ jobs:
 
       - name: PHPStan
         run: docker compose exec -T app bash -c "./vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=-1"
+
+      - name: test 
+        run: docker compose exec -T app bash -c "./vendor/bin/phpunit"
