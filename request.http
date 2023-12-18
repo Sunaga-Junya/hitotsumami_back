@@ -1,0 +1,9 @@
+
+
+POST http://localhost/api/recipes HTTP/1.1
+content-type: application/json
+
+{
+    "name":"alice",
+    "mailaddress":"aaa@co.jp",
+}
