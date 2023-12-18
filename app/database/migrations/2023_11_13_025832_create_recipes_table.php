@@ -19,8 +19,7 @@ return new class () extends Migration {
             $table->json("seasonings")->nullable();
             $table->json("steps");
             $table->string("image_path");
-            $table->timestamp("created_at")->useCurrent();
-            $table->timestamp("updated_at")->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 
