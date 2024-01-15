@@ -72,7 +72,7 @@ class RecipeTest extends TestCase
         $response->assertUnauthorized();
     }
 
-    public function test_post_recipe_for_bad_request(): void
+    public function test_post_recipe_no_name(): void
     {
 
         $response = $this->withHeaders([
@@ -82,6 +82,24 @@ class RecipeTest extends TestCase
             'description' => 'test',
             'time_required_min' => 10,
             'ingredients' => [['name' => 'キャベツ', 'quantity' => 1]],
+            'seasonings' => [['name' => 'syoyu', 'quantity' => '200g']],
+            'steps' => [['content' => 'test'], ['content' => 'test2']],
+            'image_path' => '',
+        ]);
+
+        $response->assertStatus(400);
+    }
+
+    public function test_post_recipe_no_ingredients(): void
+    {
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$this->token,
+        ])->postJson('/api/recipes', [
+            'name' => 'test',
+            'description' => 'test',
+            'time_required_min' => 10,
+            'ingredients' => [],
             'seasonings' => [['name' => 'syoyu', 'quantity' => '200g']],
             'steps' => [['content' => 'test'], ['content' => 'test2']],
             'image_path' => '',
