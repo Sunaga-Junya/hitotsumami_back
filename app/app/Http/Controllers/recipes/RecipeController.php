@@ -4,22 +4,31 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\recipes;
 
+use App\Http\Requests\PostRecipeRequest;
 use App\Models\Ingredient;
 use App\Models\Recipe;
-use Illuminate\Http\Request;
+use App\Services\RecipeService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-
-use App\Http\Requests\PostRecipeRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class RecipeController
 {
+    public function __construct(
+        private RecipeService $recipeService
+    ) {
+    }
+
+    public function get()
+    {
+        return response()->json($this->recipeService->getRecipes(), Response::HTTP_OK);
+    }
+
     public function post(PostRecipeRequest $request)
     {
         $user = $request->user();
 
         $recipe = new Recipe();
-    
+
         $created_recipe = $recipe->create([
             'user_id' => $user['id'],
             'name' => $request['name'],
@@ -45,6 +54,6 @@ class RecipeController
             DB::table('recipe_ingredient')->insert($recipe_ingredient_data);
         }
 
-        return response()->json($created_recipe, 201);
+        return response()->json($created_recipe, Response::HTTP_CREATED);
     }
 }

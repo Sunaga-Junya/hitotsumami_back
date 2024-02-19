@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostRecipeRequest extends FormRequest
 {
@@ -38,7 +39,7 @@ class PostRecipeRequest extends FormRequest
     protected function failedValidation(Validator $validator): void
     {
         Log::debug($validator->errors()->toArray());
-        throw new HttpResponseException(response(null,400));
+        throw new HttpResponseException(response(null, Response::HTTP_BAD_REQUEST));
     }
 }
 
