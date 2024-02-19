@@ -15,35 +15,26 @@ use App\Http\Requests\PostRecipeRequest;
 
 class RecipeService{
     public function postRecipe(PostRecipeRequest $request): array{
+
         $user = $request->user();
 
-        $recipe = new Recipe();
-    
-        $created_recipe = $recipe->create([
-            'user_id' => $user['id'],
-            'name' => $request['name'],
-            'description' => $request['description'],
-            'time_required_min' => $request['time_required_min'],
-            'seasonings' => $request['seasonings'],
-            'steps' => $request['steps'],
-            'image_path' => $request['image_path'],
+        $recipe = Recipe::create([
+            'user_id' => $user->id, 
+            'name' => $request->name,
+            'description' => $request->description,
+            'time_required_min' => $request->time_required_min,
+            'seasonings' => $request->seasonings,
+            'steps' => $request->steps,
+            'image_path' => $request->image_path,
         ]);
 
-        $ingredients = $request['ingredients'];
-
-        foreach ($ingredients as $ingredient) {
+        $ingredients = collect($request->ingredients)->mapWithKeys(function ($ingredient) {
             $ingredient_id = Ingredient::where('name', $ingredient['name'])->value('id');
-            $recipe_ingredient_data = [
-                'recipe_id' => $created_recipe['id'],
-                'ingredient_id' => $ingredient_id,
-                'quantity' => $ingredient['quantity'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
+            return [$ingredient_id => ['quantity' => $ingredient['quantity']]];
+        });
 
-            DB::table('recipe_ingredient')->insert($recipe_ingredient_data);
-        }
+        $recipe->ingredients()->attach($ingredients);
 
-        return $created_recipe->toArray();
+        return $recipe->toArray();
     }
 }
