@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::controller(RecipeController::class)->group(function () {
-        Route::post('/recipes', 'post');
-    });
+    Route::post('recipes', RecipeController::class);
 });
 
 Route::get('/check', function () {
