@@ -6,6 +6,7 @@ use App\Models\Ingredient;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class RecipeTest extends TestCase
@@ -87,7 +88,7 @@ class RecipeTest extends TestCase
             'image_path' => '',
         ]);
 
-        $response->assertStatus(400);
+        $response->assertBadRequest();
     }
 
     public function test_post_recipe_no_ingredients(): void
@@ -105,6 +106,6 @@ class RecipeTest extends TestCase
             'image_path' => '',
         ]);
 
-        $response->assertStatus(400);
+        $response->assertBadRequest();
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
 use App\Http\Requests\PostRecipeRequest;
 
@@ -45,6 +46,6 @@ class RecipeController
             DB::table('recipe_ingredient')->insert($recipe_ingredient_data);
         }
 
-        return response()->json($created_recipe, 201);
+        return response()->json($created_recipe, Response::HTTP_CREATED);
     }
 }
