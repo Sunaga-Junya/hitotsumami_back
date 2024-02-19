@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Ingredient;
+use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
@@ -16,14 +17,18 @@ class RecipeTest extends TestCase
 
     private $ingredient;
 
+    private $recipe;
+
     private $token;
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->numRecipe = 4;
 
         $this->user = User::factory()->create();
-        $this->ingredient = Ingredient::factory()->create();
+
+        $this->recipe = Recipe::factory()->count($this->numRecipe)->hasAttached(Ingredient::factory()->create(), ['quantity' => 20])->create();
         $this->token = $this->user->createToken('token')->plainTextToken;
     }
 
@@ -107,4 +112,30 @@ class RecipeTest extends TestCase
 
         $response->assertStatus(400);
     }
+
+    /**
+     * @test
+     *
+     * @group now
+     */
+    public function test_get_recipe(): void
+    {
+        $response = $this->get('/api/recipes');
+        $response->assertOk()
+            ->assertJsonCount($this->numRecipe)
+            ->assertJsonStructure([
+                '*' => [
+                    'id',
+                    'name',
+                    'ingredients' => [
+                        '*' => [
+                            'id',
+                            'name',
+                            'quantity',
+                        ],
+                    ],
+                ],
+            ]);
+    }
 }
+
