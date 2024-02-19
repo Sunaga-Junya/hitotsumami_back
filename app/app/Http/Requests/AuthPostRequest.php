@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Log;
 
 class AuthPostRequest extends FormRequest
@@ -24,7 +25,7 @@ class AuthPostRequest extends FormRequest
     }
     protected function failedValidation(Validator $validator): void
     {
-        Log::debug($validator->errors()->toArray());
-        throw new HttpResponseException(response(null,400));
+        $error_mes = $validator->errors()->first();
+        throw new HttpResponseException(response($error_mes,Response::HTTP_BAD_REQUEST));
     }
 }
