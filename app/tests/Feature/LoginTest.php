@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Log;
+
 use Tests\TestCase;
 use App\Models\User;
 
@@ -63,17 +65,27 @@ class LoginTest extends TestCase
             // 'password' => 'wrong_password'
         ]);
 
-        $response->assertStatus(400);
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
     }
 
-    public function test_login_api_validation_error(): void 
+    public function test_login_api_validation_error_by_wrong_password(): void 
     {
         $response = $this->postJson('/api/login',[
             'email' => $this->user->email,
             'password' => 10045
         ]);
 
-        $response->assertStatus(400);
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+    }
+
+    public function test_login_api_validation_error_by_wrong_email(): void 
+    {
+        $response = $this->postJson('/api/login',[
+            'email' => 1000,
+            'password' => 'password'
+        ]);
+
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
     }
     
 }
