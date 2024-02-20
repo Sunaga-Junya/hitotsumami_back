@@ -14,21 +14,28 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\PostRecipeRequest;
 
 class RecipeService{
-    public function postRecipe(PostRecipeRequest $request): array{
-
-        $user = $request->user();
+    public function postRecipe(
+        int $id,
+        String $name, 
+        String $description, 
+        int $time_required_min, 
+        array $seasonings, 
+        array $steps, 
+        String $image_path,
+        array $raw_ingredients
+    ): array{
 
         $recipe = Recipe::create([
-            'user_id' => $user->id, 
-            'name' => $request->name,
-            'description' => $request->description,
-            'time_required_min' => $request->time_required_min,
-            'seasonings' => $request->seasonings,
-            'steps' => $request->steps,
-            'image_path' => $request->image_path,
+            'user_id' => $id, 
+            'name' => $name,
+            'description' => $description,
+            'time_required_min' => $time_required_min,
+            'seasonings' => $seasonings,
+            'steps' => $steps,
+            'image_path' => $image_path,
         ]);
 
-        $ingredients = collect($request->ingredients)->mapWithKeys(function ($ingredient) {
+        $ingredients = collect($raw_ingredients)->mapWithKeys(function ($ingredient) {
             $ingredient_id = Ingredient::where('name', $ingredient['name'])->value('id');
             return [$ingredient_id => ['quantity' => $ingredient['quantity']]];
         });

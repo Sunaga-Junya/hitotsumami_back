@@ -22,7 +22,25 @@ class RecipeController
     ) {
     }
 
-    public function __invoke(PostRecipeRequest $request): JsonResponse{
-        return response()->json($this->recipeService->postRecipe($request), Response::HTTP_CREATED);
+    public function post(PostRecipeRequest $request): JsonResponse{
+        $id = $request->user()->id;
+        $name = $request->name;
+        $description = $request->description;
+        $time_required_min = $request->time_required_min;
+        $seasonings = $request->seasonings;
+        $steps = $request->steps;
+        $image_path = $request->image_path ?? '';
+        $raw_ingredients = $request->ingredients;
+
+        return response()->json($this->recipeService->postRecipe(
+            $id,
+            $name,
+            $description,
+            $time_required_min,
+            $seasonings,
+            $steps,
+            $image_path,
+            $raw_ingredients
+        ), Response::HTTP_CREATED);
     }
 }
