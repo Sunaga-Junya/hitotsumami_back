@@ -14,8 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->foreignId("recipe_id")->constrained();
             $table->foreignId("user_id")->constrained();
-            $table->timestamp("created_at")->useCurrent();
-            $table->timestamp("updated_at")->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 

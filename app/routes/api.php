@@ -3,6 +3,8 @@
 use App\Http\Controllers\recipes\RecipeController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AuthController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::post('/login', [AuthController::class, 'post']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::controller(RecipeController::class)->group(function () {
