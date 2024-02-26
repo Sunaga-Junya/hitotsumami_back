@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\recipes\RecipeController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
@@ -17,3 +17,12 @@ use App\Http\Controllers\AuthController;
 */
 Route::post('/login', [AuthController::class, 'post']);
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::controller(RecipeController::class)->group(function () {
+        Route::post('/recipes', 'post');
+    });
+});
+
+Route::get('/check', function () {
+    return 'json';
+});

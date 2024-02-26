@@ -18,7 +18,7 @@ return new class () extends Migration {
             $table->integer("time_required_min");
             $table->json("seasonings")->nullable();
             $table->json("steps");
-            $table->string("image_path");
+            $table->string("image_path")->nullable();
             $table->timestamps();
         });
     }
