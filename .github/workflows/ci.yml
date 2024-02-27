@@ -16,7 +16,7 @@ jobs:
       - name: Build docker image
         run: |
           docker compose build
-          docker compose up -d
+          docker compose up -d --wait
 
       - name: composer install
         run: docker compose exec -T app bash -c "composer install"
