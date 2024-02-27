@@ -1,5 +1,7 @@
+includes:
+  - ./vendor/nunomaduro/larastan/extension.neon
 parameters:
-  level: 5
+  level: 7
   paths:
     - .
   excludePaths:
@@ -7,3 +9,4 @@ parameters:
         - vendor
         - bootstrap/cache
         - storage
+  checkGenericClassInNonGenericObjectType: false

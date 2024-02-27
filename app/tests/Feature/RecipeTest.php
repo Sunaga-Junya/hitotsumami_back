@@ -7,20 +7,21 @@ use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
+#おまじない　これがないとphpstanがpostJsonに文句を言う。継承をうまく認識できていないみたい。
+use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 
 class RecipeTest extends TestCase
 {
     use RefreshDatabase;
+    use MakesHttpRequests;
+    use InteractsWithDatabase;
 
-    private $user;
+    private User $user;
 
-    private $ingredient;
-
-    private $recipe;
-
-    private $token;
+    private string $token;
+    private int $numRecipe;
 
     protected function setUp(): void
     {
@@ -29,7 +30,7 @@ class RecipeTest extends TestCase
 
         $this->user = User::factory()->create();
 
-        $this->recipe = Recipe::factory()->count($this->numRecipe)->hasAttached(Ingredient::factory()->create(), ['quantity' => 20])->create();
+        Recipe::factory()->count($this->numRecipe)->hasAttached(Ingredient::factory()->create(), ['quantity' => 20])->create();
         $this->token = $this->user->createToken('token')->plainTextToken;
     }
 
@@ -139,4 +140,3 @@ class RecipeTest extends TestCase
             ]);
     }
 }
-
