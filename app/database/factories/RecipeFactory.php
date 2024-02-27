@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,13 +17,13 @@ class RecipeFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
             'name' => fake()->userName(),
             'description' => fake()->realText($maxNbChars = 100),
-            'time_required_min' => fake()->randomNumber($nbDigits = 2),
+            'time_required_min' => randomNumber($nbDigits = 2),
             'seasonings' => [['name' => 'syoyu', 'quantity' => '200g']],
             'steps' => [['content' => 'test'], ['content' => 'test2']],
-            'image_path' => '',
+            'password' => static::$password ??= Hash::make('password'),
+            // 'remember_token' => Str::random(10),
         ];
     }
 }

@@ -13,7 +13,7 @@ return new class () extends Migration {
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
             $table->foreignId("user_id")->constrained();
-            $table->string("name", 50);
+            $table->string("name",50);
             $table->text("description");
             $table->integer("time_required_min");
             $table->json("seasonings")->nullable();

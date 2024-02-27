@@ -17,8 +17,6 @@ use App\Http\Controllers\AuthController;
 */
 Route::post('/login', [AuthController::class, 'post']);
 
-Route::get('recipes', [RecipeController::class, 'get']);
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::controller(RecipeController::class)->group(function () {
         Route::post('/recipes', 'post');
