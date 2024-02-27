@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\recipes\RecipeController;
+use App\Http\Controllers\RegistrationUserController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
@@ -15,9 +16,12 @@ use App\Http\Controllers\AuthController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::post('/login', [AuthController::class, 'post']);
 
 Route::get('recipes', [RecipeController::class, 'get']);
+
+Route::post('users', [RegistrationUserController::class, 'post']);
+
+Route::post('/login', [AuthController::class, 'post']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::controller(RecipeController::class)->group(function () {
