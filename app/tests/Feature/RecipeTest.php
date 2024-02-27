@@ -3,28 +3,34 @@
 namespace Tests\Feature;
 
 use App\Models\Ingredient;
+use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
+#おまじない　これがないとphpstanがpostJsonに文句を言う。継承をうまく認識できていないみたい。
+use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 
 class RecipeTest extends TestCase
 {
     use RefreshDatabase;
+    use MakesHttpRequests;
+    use InteractsWithDatabase;
 
-    private $user;
+    private User $user;
 
-    private $ingredient;
-
-    private $token;
+    private string $token;
+    private int $numRecipe;
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->numRecipe = 4;
 
         $this->user = User::factory()->create();
-        $this->ingredient = Ingredient::factory()->create();
+
+        Recipe::factory()->count($this->numRecipe)->hasAttached(Ingredient::factory()->create(), ['quantity' => 20])->create();
         $this->token = $this->user->createToken('token')->plainTextToken;
     }
 
@@ -107,5 +113,30 @@ class RecipeTest extends TestCase
         ]);
 
         $response->assertBadRequest();
+    }
+
+    /**
+     * @test
+     *
+     * @group now
+     */
+    public function test_get_recipe(): void
+    {
+        $response = $this->get('/api/recipes');
+        $response->assertOk()
+            ->assertJsonCount($this->numRecipe)
+            ->assertJsonStructure([
+                '*' => [
+                    'id',
+                    'name',
+                    'ingredients' => [
+                        '*' => [
+                            'id',
+                            'name',
+                            'quantity',
+                        ],
+                    ],
+                ],
+            ]);
     }
 }
