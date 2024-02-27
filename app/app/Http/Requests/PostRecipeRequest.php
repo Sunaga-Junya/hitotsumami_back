@@ -39,7 +39,6 @@ class PostRecipeRequest extends FormRequest
     protected function failedValidation(Validator $validator): void
     {
         $error_msg = $validator->errors()->first();
-        throw new HttpResponseException(response($error_msg,Response::HTTP_BAD_REQUEST));
+        throw new HttpResponseException(response($error_msg, Response::HTTP_BAD_REQUEST));
     }
 }
-

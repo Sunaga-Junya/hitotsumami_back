@@ -7,20 +7,20 @@ use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
+#おまじない　これがないとphpstanがpostJsonに文句を言う。継承をうまく認識できていないみたい。
+use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 
 class RecipeTest extends TestCase
 {
     use RefreshDatabase;
+    use MakesHttpRequests;
+    use InteractsWithDatabase;
 
-    private $user;
+    private User $user;
 
-    private $ingredient;
-
-    private $recipe;
-
-    private $token;
+    private string $token;
 
     protected function setUp(): void
     {
