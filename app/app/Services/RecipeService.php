@@ -56,6 +56,13 @@ class RecipeService
         return $recipe->toArray();
     }
 
+    /**
+     * @return array{
+     *     id: int,
+     *     name: string,
+     *     ingredients: array<array{id: int, name: string, quantity: int}>
+     * }[]
+     */
     public function getRecipes(): array
     {
         $recipes = Recipe::with('ingredients')->get()->map(function ($recipe) {
@@ -80,4 +87,3 @@ class RecipeService
         return $recipes->toArray();
     }
 }
-

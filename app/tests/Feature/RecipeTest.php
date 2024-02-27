@@ -21,6 +21,7 @@ class RecipeTest extends TestCase
     private User $user;
 
     private string $token;
+    private int $numRecipe;
 
     protected function setUp(): void
     {
@@ -29,7 +30,7 @@ class RecipeTest extends TestCase
 
         $this->user = User::factory()->create();
 
-        $this->recipe = Recipe::factory()->count($this->numRecipe)->hasAttached(Ingredient::factory()->create(), ['quantity' => 20])->create();
+        Recipe::factory()->count($this->numRecipe)->hasAttached(Ingredient::factory()->create(), ['quantity' => 20])->create();
         $this->token = $this->user->createToken('token')->plainTextToken;
     }
 
@@ -139,4 +140,3 @@ class RecipeTest extends TestCase
             ]);
     }
 }
-
