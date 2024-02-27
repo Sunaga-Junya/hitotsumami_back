@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\recipes\RecipeController;
-use Illuminate\Http\Request;
 use App\Http\Controllers\RegistrationUserController;
 use Illuminate\Support\Facades\Route;
 

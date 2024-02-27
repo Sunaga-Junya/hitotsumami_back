@@ -3,16 +3,16 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use Tests\TestCase;
 
 class RegistrationUserTest extends TestCase
 {
     use RefreshDatabase;
+    use MakesHttpRequests;
 
     public function test_registration_api_success(): void
     {
@@ -29,7 +29,7 @@ class RegistrationUserTest extends TestCase
 
     }
 
-    public function test_registration_api_validation_error_by_wrong_name()
+    public function test_registration_api_validation_error_by_wrong_name(): void
     {
         $response = $this->postJson('/api/users', [
             'name' => 10000,
@@ -40,7 +40,7 @@ class RegistrationUserTest extends TestCase
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
     }
 
-    public function test_registration_api_validation_error_by_wrong_email()
+    public function test_registration_api_validation_error_by_wrong_email(): void
     {
         $response = $this->postJson('/api/users', [
             'name' => 'Alice',
@@ -51,7 +51,7 @@ class RegistrationUserTest extends TestCase
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
     }
 
-    public function test_registration_api_validation_error_by_wrong_password()
+    public function test_registration_api_validation_error_by_wrong_password(): void
     {
         $response = $this->postJson('/api/users', [
             'name' => 'Alice',

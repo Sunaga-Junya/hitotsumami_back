@@ -6,10 +6,12 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 
 class RegistrationUserService
 {
+    /**
+     * @return array{name: string, email: string}
+     */
     public function registrationUser(
         string $name,
         string $email,
